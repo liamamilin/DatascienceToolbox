@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Diagnostic analytics | Data Science toolbox</title>
+  <meta name="description" content="这本书是一本工具书, 里面总结了使用R进行数据科学相关工作常用的一些工具." />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Diagnostic analytics | Data Science toolbox" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="这本书是一本工具书, 里面总结了使用R进行数据科学相关工作常用的一些工具." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Diagnostic analytics | Data Science toolbox" />
+  
+  <meta name="twitter:description" content="这本书是一本工具书, 里面总结了使用R进行数据科学相关工作常用的一些工具." />
+  
+
+<meta name="author" content="米霖" />
+
+
+<meta name="date" content="2024-02-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="descriptive-analytics-1.html"/>
+<link rel="next" href="predictive-analytics-1.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data science Toolboxe</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> url: your book url like https://bookdown.org/yihui/bookdown</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#ddpp"><i class="fa fa-check"></i><b>1.1</b> DDPP</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#descriptive-analytics"><i class="fa fa-check"></i><b>1.1.1</b> Descriptive analytics</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#diagnostic-analytics"><i class="fa fa-check"></i><b>1.1.2</b> Diagnostic analytics</a></li>
+<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#predictive-analytics"><i class="fa fa-check"></i><b>1.1.3</b> Predictive analytics</a></li>
+<li class="chapter" data-level="1.1.4" data-path="index.html"><a href="index.html#prescriptive-analytics"><i class="fa fa-check"></i><b>1.1.4</b> prescriptive analytics</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#关于ddpp-的简单总结"><i class="fa fa-check"></i><b>1.2</b> 关于DDPP 的简单总结</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="descriptive-analytics-1.html"><a href="descriptive-analytics-1.html"><i class="fa fa-check"></i><b>2</b> Descriptive analytics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="descriptive-analytics-1.html"><a href="descriptive-analytics-1.html#ggstatsplot"><i class="fa fa-check"></i><b>2.1</b> ggstatsplot</a></li>
+<li class="chapter" data-level="2.2" data-path="descriptive-analytics-1.html"><a href="descriptive-analytics-1.html#crosstable"><i class="fa fa-check"></i><b>2.2</b> crosstable</a></li>
+<li class="chapter" data-level="2.3" data-path="descriptive-analytics-1.html"><a href="descriptive-analytics-1.html#附录"><i class="fa fa-check"></i><b>2.3</b> 附录</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html"><i class="fa fa-check"></i><b>3</b> Diagnostic analytics</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#工具箱"><i class="fa fa-check"></i><b>3.1</b> 工具箱</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#分析方法"><i class="fa fa-check"></i><b>3.1.1</b> 分析方法</a></li>
+<li class="chapter" data-level="3.1.2" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#分析工具"><i class="fa fa-check"></i><b>3.1.2</b> 分析工具</a></li>
+<li class="chapter" data-level="3.1.3" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#分组图形"><i class="fa fa-check"></i><b>3.1.3</b> 分组图形</a></li>
+<li class="chapter" data-level="3.1.4" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#列联表分析"><i class="fa fa-check"></i><b>3.1.4</b> 列联表分析</a></li>
+<li class="chapter" data-level="3.1.5" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#卡方和t-检验"><i class="fa fa-check"></i><b>3.1.5</b> 卡方和t 检验</a></li>
+<li class="chapter" data-level="3.1.6" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#异常值检验"><i class="fa fa-check"></i><b>3.1.6</b> 异常值检验</a></li>
+<li class="chapter" data-level="3.1.7" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#关联规则"><i class="fa fa-check"></i><b>3.1.7</b> 关联规则</a></li>
+<li class="chapter" data-level="3.1.8" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#k-means"><i class="fa fa-check"></i><b>3.1.8</b> k means</a></li>
+<li class="chapter" data-level="3.1.9" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#层级聚类"><i class="fa fa-check"></i><b>3.1.9</b> 层级聚类</a></li>
+<li class="chapter" data-level="3.1.10" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#dbscan"><i class="fa fa-check"></i><b>3.1.10</b> DBSCAN</a></li>
+<li class="chapter" data-level="3.1.11" data-path="diagnostic-analytics-1.html"><a href="diagnostic-analytics-1.html#woe-分析"><i class="fa fa-check"></i><b>3.1.11</b> WOE 分析</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html"><i class="fa fa-check"></i><b>4</b> Predictive analytics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#工具箱-1"><i class="fa fa-check"></i><b>4.1</b> 工具箱</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#glm"><i class="fa fa-check"></i><b>4.1.1</b> GLM</a></li>
+<li class="chapter" data-level="4.1.2" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#xgboost"><i class="fa fa-check"></i><b>4.1.2</b> xgboost</a></li>
+<li class="chapter" data-level="4.1.3" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#dt"><i class="fa fa-check"></i><b>4.1.3</b> DT</a></li>
+<li class="chapter" data-level="4.1.4" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#naive-bayes"><i class="fa fa-check"></i><b>4.1.4</b> Naive Bayes</a></li>
+<li class="chapter" data-level="4.1.5" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#times-series"><i class="fa fa-check"></i><b>4.1.5</b> times series</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#特征衍生的常用方法"><i class="fa fa-check"></i><b>4.2</b> 特征衍生的常用方法</a></li>
+<li class="chapter" data-level="4.3" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#特征衍生方法"><i class="fa fa-check"></i><b>4.3</b> 特征衍生方法</a></li>
+<li class="chapter" data-level="4.4" data-path="predictive-analytics-1.html"><a href="predictive-analytics-1.html#做数据科学的工作需要了解业务.如何了解业务"><i class="fa fa-check"></i><b>4.4</b> 做数据科学的工作，需要了解业务.如何了解业务？</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="prescriptive-analytics-1.html"><a href="prescriptive-analytics-1.html"><i class="fa fa-check"></i><b>5</b> prescriptive analytics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="prescriptive-analytics-1.html"><a href="prescriptive-analytics-1.html#工具"><i class="fa fa-check"></i><b>5.1</b> 工具</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="prescriptive-analytics-1.html"><a href="prescriptive-analytics-1.html#lpsolve-线性规划"><i class="fa fa-check"></i><b>5.1.1</b> 1. lpSolve 线性规划</a></li>
+<li class="chapter" data-level="5.1.2" data-path="prescriptive-analytics-1.html"><a href="prescriptive-analytics-1.html#整数规划"><i class="fa fa-check"></i><b>5.1.2</b> 整数规划</a></li>
+<li class="chapter" data-level="5.1.3" data-path="prescriptive-analytics-1.html"><a href="prescriptive-analytics-1.html#二次规划"><i class="fa fa-check"></i><b>5.1.3</b> 二次规划</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="prescriptive-analytics-1.html"><a href="prescriptive-analytics-1.html#多目标规划"><i class="fa fa-check"></i><b>5.2</b> 多目标规划</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/liamamilin" target="blank">米霖 Github</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science toolbox</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="diagnostic-analytics-1" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Diagnostic analytics<a href="diagnostic-analytics-1.html#diagnostic-analytics-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="工具箱" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> 工具箱<a href="diagnostic-analytics-1.html#工具箱" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="分析方法" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> 分析方法<a href="diagnostic-analytics-1.html#分析方法" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>率值波动分析</li>
+</ol>
+<p>看数值的波动 是哪个维度的值变化导致的.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>绝对值波动分析</p></li>
+<li><p>漏斗分析</p></li>
+</ol>
+<p>就是看不不同关键环节的转化率</p>
+<ol start="4" style="list-style-type: decimal">
+<li>流程分析</li>
+</ol>
+<p>类似上面 100% - 100%</p>
+<ol start="6" style="list-style-type: decimal">
+<li>矩阵分析法</li>
+</ol>
+<p>RMF 模型 波士顿矩阵</p>
+</div>
+<div id="分析工具" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> 分析工具<a href="diagnostic-analytics-1.html#分析工具" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>各种统计图形 : 分组小提琴图</li>
+<li>各种统计检验 : 卡发检验, t 检验 ,WOE分析</li>
+<li>各种统计模型 : 回归分析, 异常值检验 , 聚类分析</li>
+</ol>
+</div>
+<div id="分组图形" class="section level3 hasAnchor" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> 分组图形<a href="diagnostic-analytics-1.html#分组图形" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>最常用的就是使用ggplot 来进行数据可视化.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="diagnostic-analytics-1.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="diagnostic-analytics-1.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)</span></code></pre></div>
+<pre><code>## You can cite this package as:
+##      Patil, I. (2021). Visualizations with statistical details: The &#39;ggstatsplot&#39; approach.
+##      Journal of Open Source Software, 6(61), 3167, doi:10.21105/joss.03167</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="diagnostic-analytics-1.html#cb3-1" tabindex="-1"></a><span class="co"># 创建示例数据</span></span>
+<span id="cb3-2"><a href="diagnostic-analytics-1.html#cb3-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb3-3"><a href="diagnostic-analytics-1.html#cb3-3" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-4"><a href="diagnostic-analytics-1.html#cb3-4" tabindex="-1"></a>  <span class="at">Group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="at">each =</span> <span class="dv">100</span>),</span>
+<span id="cb3-5"><a href="diagnostic-analytics-1.html#cb3-5" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>), <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">2</span>))</span>
+<span id="cb3-6"><a href="diagnostic-analytics-1.html#cb3-6" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="diagnostic-analytics-1.html#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="diagnostic-analytics-1.html#cb3-8" tabindex="-1"></a><span class="co"># 绘制分组小提琴图</span></span>
+<span id="cb3-9"><a href="diagnostic-analytics-1.html#cb3-9" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Group, <span class="at">y =</span> Value, <span class="at">fill =</span> Group)) <span class="sc">+</span></span>
+<span id="cb3-10"><a href="diagnostic-analytics-1.html#cb3-10" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">trim =</span> <span class="cn">FALSE</span>, <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)) <span class="sc">+</span></span>
+<span id="cb3-11"><a href="diagnostic-analytics-1.html#cb3-11" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">alpha =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="diagnostic-analytics-1.html#cb3-12" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>当然, 可以直接使用ggstatsplot</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="diagnostic-analytics-1.html#cb4-1" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)</span>
+<span id="cb4-2"><a href="diagnostic-analytics-1.html#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="diagnostic-analytics-1.html#cb4-3" tabindex="-1"></a><span class="co"># create a plot</span></span>
+<span id="cb4-4"><a href="diagnostic-analytics-1.html#cb4-4" tabindex="-1"></a> <span class="fu">ggbetweenstats</span>(mtcars, am, mpg)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="列联表分析" class="section level3 hasAnchor" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> 列联表分析<a href="diagnostic-analytics-1.html#列联表分析" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="diagnostic-analytics-1.html#cb5-1" tabindex="-1"></a><span class="fu">library</span>(crosstable)</span>
+<span id="cb5-2"><a href="diagnostic-analytics-1.html#cb5-2" tabindex="-1"></a>ct2 <span class="ot">=</span> <span class="fu">crosstable</span>(mtcars2, <span class="fu">c</span>(<span class="fu">starts_with</span>(<span class="st">&quot;cy&quot;</span>), <span class="fu">ends_with</span>(<span class="st">&quot;at&quot;</span>)), <span class="at">by=</span><span class="fu">c</span>(am, vs), </span>
+<span id="cb5-3"><a href="diagnostic-analytics-1.html#cb5-3" tabindex="-1"></a>                 <span class="at">label=</span><span class="cn">FALSE</span>, <span class="at">num_digits=</span><span class="dv">3</span>, <span class="at">funs=</span><span class="fu">c</span>(mean, quantile), </span>
+<span id="cb5-4"><a href="diagnostic-analytics-1.html#cb5-4" tabindex="-1"></a>                 <span class="at">funs_arg=</span><span class="fu">list</span>(<span class="at">probs=</span><span class="fu">c</span>(.<span class="dv">25</span>,.<span class="dv">75</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="diagnostic-analytics-1.html#cb5-5" tabindex="-1"></a>  <span class="fu">as_flextable</span>(<span class="at">compact=</span><span class="cn">TRUE</span>, <span class="at">header_show_n=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb5-6"><a href="diagnostic-analytics-1.html#cb5-6" tabindex="-1"></a>ct2</span></code></pre></div>
+<div class="tabwid"><style>.cl-e1c7bfcc{}.cl-e1bf2f7e{font-family:'Helvetica';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e1bf2f92{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e1c29c04{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e1c29c0e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e1c29c18{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:25pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e1c2b55e{width:1.539in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b568{width:1.346in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b569{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b572{width:1.431in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b573{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b57c{width:1.539in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b586{width:1.346in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b587{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b588{width:1.431in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b590{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b59a{width:1.539in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b59b{width:1.346in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b59c{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5a4{width:1.431in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5ae{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5af{width:1.539in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5b8{width:1.346in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5c2{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5c3{width:1.431in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5cc{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5cd{width:1.539in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5d6{width:1.346in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5e0{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5e1{width:1.431in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5ea{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5f4{width:1.539in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5f5{width:1.346in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5f6{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5fe{width:1.431in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b5ff{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b608{width:1.539in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b609{width:1.346in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b612{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b613{width:1.431in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b614{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b61c{width:1.539in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b61d{width:1.346in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b61e{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b626{width:1.431in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1c2b627{width:1.559in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-e1c7bfcc'><thead><tr style="overflow-wrap:break-word;"><th  rowspan="2"class="cl-e1c2b55e"><p class="cl-e1c29c04"><span class="cl-e1bf2f7e">variable</span></p></th><th  colspan="2"class="cl-e1c2b568"><p class="cl-e1c29c04"><span class="cl-e1bf2f7e">vs=straight (N=14)</span></p></th><th  colspan="2"class="cl-e1c2b572"><p class="cl-e1c29c04"><span class="cl-e1bf2f7e">vs=vshaped (N=18)</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-e1c2b586"><p class="cl-e1c29c04"><span class="cl-e1bf2f7e">am=auto (N=7)</span></p></th><th class="cl-e1c2b587"><p class="cl-e1c29c04"><span class="cl-e1bf2f7e">am=manual (N=7)</span></p></th><th class="cl-e1c2b588"><p class="cl-e1c29c04"><span class="cl-e1bf2f7e">am=auto (N=12)</span></p></th><th class="cl-e1c2b590"><p class="cl-e1c29c04"><span class="cl-e1bf2f7e">am=manual (N=6)</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e1c2b59a"><p class="cl-e1c29c0e"><span class="cl-e1bf2f7e">cyl</span></p></td><td class="cl-e1c2b59b"><p class="cl-e1c29c0e"><span class="cl-e1bf2f7e"></span></p></td><td class="cl-e1c2b59c"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92"></span></p></td><td class="cl-e1c2b5a4"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92"></span></p></td><td class="cl-e1c2b5ae"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e1c2b5af"><p class="cl-e1c29c18"><span class="cl-e1bf2f92">4</span></p></td><td class="cl-e1c2b5b8"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3 (27.27%)</span></p></td><td class="cl-e1c2b5c2"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">7 (63.64%)</span></p></td><td class="cl-e1c2b5c3"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">0 (0%)</span></p></td><td class="cl-e1c2b5cc"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">1 (9.09%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e1c2b5af"><p class="cl-e1c29c18"><span class="cl-e1bf2f92">6</span></p></td><td class="cl-e1c2b5b8"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">4 (57.14%)</span></p></td><td class="cl-e1c2b5c2"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">0 (0%)</span></p></td><td class="cl-e1c2b5c3"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">0 (0%)</span></p></td><td class="cl-e1c2b5cc"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3 (42.86%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e1c2b5af"><p class="cl-e1c29c18"><span class="cl-e1bf2f92">8</span></p></td><td class="cl-e1c2b5b8"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">0 (0%)</span></p></td><td class="cl-e1c2b5c2"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">0 (0%)</span></p></td><td class="cl-e1c2b5c3"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">12 (85.71%)</span></p></td><td class="cl-e1c2b5cc"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">2 (14.29%)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e1c2b5cd"><p class="cl-e1c29c0e"><span class="cl-e1bf2f7e">drat</span></p></td><td class="cl-e1c2b5d6"><p class="cl-e1c29c0e"><span class="cl-e1bf2f7e"></span></p></td><td class="cl-e1c2b5e0"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92"></span></p></td><td class="cl-e1c2b5e1"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92"></span></p></td><td class="cl-e1c2b5ea"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e1c2b5f4"><p class="cl-e1c29c18"><span class="cl-e1bf2f92">mean</span></p></td><td class="cl-e1c2b5f5"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.570</span></p></td><td class="cl-e1c2b5f6"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">4.149</span></p></td><td class="cl-e1c2b5fe"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.121</span></p></td><td class="cl-e1c2b5ff"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.935</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e1c2b608"><p class="cl-e1c29c18"><span class="cl-e1bf2f92">quantile 25%</span></p></td><td class="cl-e1c2b609"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.385</span></p></td><td class="cl-e1c2b612"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.965</span></p></td><td class="cl-e1c2b613"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.052</span></p></td><td class="cl-e1c2b614"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.690</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e1c2b61c"><p class="cl-e1c29c18"><span class="cl-e1bf2f92">quantile 75%</span></p></td><td class="cl-e1c2b61d"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.920</span></p></td><td class="cl-e1c2b61e"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">4.165</span></p></td><td class="cl-e1c2b626"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">3.165</span></p></td><td class="cl-e1c2b627"><p class="cl-e1c29c0e"><span class="cl-e1bf2f92">4.140</span></p></td></tr></tbody></table></div>
+</div>
+<div id="卡方和t-检验" class="section level3 hasAnchor" number="3.1.5">
+<h3><span class="header-section-number">3.1.5</span> 卡方和t 检验<a href="diagnostic-analytics-1.html#卡方和t-检验" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="diagnostic-analytics-1.html#cb6-1" tabindex="-1"></a><span class="co"># 加载数据集</span></span>
+<span id="cb6-2"><a href="diagnostic-analytics-1.html#cb6-2" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span>
+<span id="cb6-3"><a href="diagnostic-analytics-1.html#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="diagnostic-analytics-1.html#cb6-4" tabindex="-1"></a><span class="co"># 对燃料类型进行编码（汽油为0，燃料添加剂为1）</span></span>
+<span id="cb6-5"><a href="diagnostic-analytics-1.html#cb6-5" tabindex="-1"></a>mtcars<span class="sc">$</span>Fuel <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(mtcars<span class="sc">$</span>carb <span class="sc">&gt;</span> <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb6-6"><a href="diagnostic-analytics-1.html#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="diagnostic-analytics-1.html#cb6-7" tabindex="-1"></a><span class="co"># 卡方检验</span></span>
+<span id="cb6-8"><a href="diagnostic-analytics-1.html#cb6-8" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(mtcars<span class="sc">$</span>Fuel, mtcars<span class="sc">$</span>disp <span class="sc">&gt;</span> <span class="fu">median</span>(mtcars<span class="sc">$</span>disp)))</span></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  table(mtcars$Fuel, mtcars$disp &gt; median(mtcars$disp))
+## X-squared = 2.0078, df = 1, p-value = 0.1565</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="diagnostic-analytics-1.html#cb8-1" tabindex="-1"></a><span class="co"># t 检验</span></span>
+<span id="cb8-2"><a href="diagnostic-analytics-1.html#cb8-2" tabindex="-1"></a><span class="fu">t.test</span>(mpg <span class="sc">~</span> Fuel, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  mpg by Fuel
+## t = 4.61, df = 26.255, p-value = 9.218e-05
+## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+## 95 percent confidence interval:
+##   4.163935 10.859594
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        23.61176        16.10000</code></pre>
+</div>
+<div id="异常值检验" class="section level3 hasAnchor" number="3.1.6">
+<h3><span class="header-section-number">3.1.6</span> 异常值检验<a href="diagnostic-analytics-1.html#异常值检验" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>基于统计学的方法：</li>
+</ol>
+<p>Z 分数检验：基于观测值与平均值之间的偏差来识别异常值。</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="diagnostic-analytics-1.html#cb10-1" tabindex="-1"></a><span class="co"># 创建示例数据</span></span>
+<span id="cb10-2"><a href="diagnostic-analytics-1.html#cb10-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb10-3"><a href="diagnostic-analytics-1.html#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="diagnostic-analytics-1.html#cb10-4" tabindex="-1"></a><span class="co"># 计算 Z 分数</span></span>
+<span id="cb10-5"><a href="diagnostic-analytics-1.html#cb10-5" tabindex="-1"></a>z_scores <span class="ot">&lt;-</span> (data <span class="sc">-</span> <span class="fu">mean</span>(data)) <span class="sc">/</span> <span class="fu">sd</span>(data)</span>
+<span id="cb10-6"><a href="diagnostic-analytics-1.html#cb10-6" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="diagnostic-analytics-1.html#cb10-7" tabindex="-1"></a><span class="co"># 确定阈值</span></span>
+<span id="cb10-8"><a href="diagnostic-analytics-1.html#cb10-8" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb10-9"><a href="diagnostic-analytics-1.html#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="diagnostic-analytics-1.html#cb10-10" tabindex="-1"></a><span class="co"># 标记异常值</span></span>
+<span id="cb10-11"><a href="diagnostic-analytics-1.html#cb10-11" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> <span class="fu">abs</span>(z_scores) <span class="sc">&gt;</span> threshold</span>
+<span id="cb10-12"><a href="diagnostic-analytics-1.html#cb10-12" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="diagnostic-analytics-1.html#cb10-13" tabindex="-1"></a><span class="co"># 显示异常值</span></span>
+<span id="cb10-14"><a href="diagnostic-analytics-1.html#cb10-14" tabindex="-1"></a>data[outliers]</span></code></pre></div>
+<pre><code>## [1] -2.564019  2.701352 -2.633217  2.791228  2.470401  2.563455 -2.529359</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>箱线图方法：利用箱线图检测数据中的异常值。</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="diagnostic-analytics-1.html#cb12-1" tabindex="-1"></a><span class="co"># 创建示例数据</span></span>
+<span id="cb12-2"><a href="diagnostic-analytics-1.html#cb12-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb12-3"><a href="diagnostic-analytics-1.html#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="diagnostic-analytics-1.html#cb12-4" tabindex="-1"></a><span class="co"># 绘制箱线图</span></span>
+<span id="cb12-5"><a href="diagnostic-analytics-1.html#cb12-5" tabindex="-1"></a><span class="fu">boxplot</span>(data)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="diagnostic-analytics-1.html#cb13-1" tabindex="-1"></a><span class="co"># 根据箱线图识别异常值</span></span>
+<span id="cb13-2"><a href="diagnostic-analytics-1.html#cb13-2" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> <span class="fu">boxplot.stats</span>(data)<span class="sc">$</span>out</span>
+<span id="cb13-3"><a href="diagnostic-analytics-1.html#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="diagnostic-analytics-1.html#cb13-4" tabindex="-1"></a><span class="co"># 显示异常值</span></span>
+<span id="cb13-5"><a href="diagnostic-analytics-1.html#cb13-5" tabindex="-1"></a>outliers</span></code></pre></div>
+<pre><code>## [1] -2.787847</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>基于机器学习的方法：</li>
+</ol>
+<p>Isolation Forest：利用随机树来检查异常值。为了说明隔离森林的优点，下一个例子将生成两组正态分布的数字，并将沿途添加一个离群值，如果单独查看变量，则无法确定这个离群值。</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="diagnostic-analytics-1.html#cb15-1" tabindex="-1"></a><span class="co"># 安装并加载 &#39;isotree&#39; 包</span></span>
+<span id="cb15-2"><a href="diagnostic-analytics-1.html#cb15-2" tabindex="-1"></a><span class="co"># install.packages(&quot;isotree&quot;)</span></span>
+<span id="cb15-3"><a href="diagnostic-analytics-1.html#cb15-3" tabindex="-1"></a><span class="fu">library</span>(isotree)</span>
+<span id="cb15-4"><a href="diagnostic-analytics-1.html#cb15-4" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="diagnostic-analytics-1.html#cb15-5" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="diagnostic-analytics-1.html#cb15-6" tabindex="-1"></a><span class="do">## Randomly-generated data from different distributions</span></span>
+<span id="cb15-7"><a href="diagnostic-analytics-1.html#cb15-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb15-8"><a href="diagnostic-analytics-1.html#cb15-8" tabindex="-1"></a>cluster1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-9"><a href="diagnostic-analytics-1.html#cb15-9" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="sc">-</span><span class="dv">1</span>, .<span class="dv">4</span>),</span>
+<span id="cb15-10"><a href="diagnostic-analytics-1.html#cb15-10" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="sc">-</span><span class="dv">1</span>, .<span class="dv">2</span>)</span>
+<span id="cb15-11"><a href="diagnostic-analytics-1.html#cb15-11" tabindex="-1"></a>)</span>
+<span id="cb15-12"><a href="diagnostic-analytics-1.html#cb15-12" tabindex="-1"></a>cluster2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-13"><a href="diagnostic-analytics-1.html#cb15-13" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="sc">+</span><span class="dv">1</span>, .<span class="dv">2</span>),</span>
+<span id="cb15-14"><a href="diagnostic-analytics-1.html#cb15-14" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="sc">+</span><span class="dv">1</span>, .<span class="dv">4</span>)</span>
+<span id="cb15-15"><a href="diagnostic-analytics-1.html#cb15-15" tabindex="-1"></a>)</span>
+<span id="cb15-16"><a href="diagnostic-analytics-1.html#cb15-16" tabindex="-1"></a>outlier <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-17"><a href="diagnostic-analytics-1.html#cb15-17" tabindex="-1"></a>    <span class="at">x =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb15-18"><a href="diagnostic-analytics-1.html#cb15-18" tabindex="-1"></a>    <span class="at">y =</span>  <span class="dv">1</span></span>
+<span id="cb15-19"><a href="diagnostic-analytics-1.html#cb15-19" tabindex="-1"></a>)</span>
+<span id="cb15-20"><a href="diagnostic-analytics-1.html#cb15-20" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="diagnostic-analytics-1.html#cb15-21" tabindex="-1"></a><span class="do">### Putting them together</span></span>
+<span id="cb15-22"><a href="diagnostic-analytics-1.html#cb15-22" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbind</span>(cluster1, cluster2, outlier)</span>
+<span id="cb15-23"><a href="diagnostic-analytics-1.html#cb15-23" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="diagnostic-analytics-1.html#cb15-24" tabindex="-1"></a><span class="do">### Function to produce a heatmap of the scores</span></span>
+<span id="cb15-25"><a href="diagnostic-analytics-1.html#cb15-25" tabindex="-1"></a>pts <span class="ot">=</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, .<span class="dv">1</span>)</span>
+<span id="cb15-26"><a href="diagnostic-analytics-1.html#cb15-26" tabindex="-1"></a>space_d <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x =</span> pts, <span class="at">y =</span> pts)</span>
+<span id="cb15-27"><a href="diagnostic-analytics-1.html#cb15-27" tabindex="-1"></a>plot.space <span class="ot">&lt;-</span> <span class="cf">function</span>(Z, ttl, <span class="at">cex.main =</span> <span class="fl">1.4</span>) {</span>
+<span id="cb15-28"><a href="diagnostic-analytics-1.html#cb15-28" tabindex="-1"></a>    <span class="fu">image</span>(pts, pts, <span class="fu">matrix</span>(Z, <span class="at">nrow =</span> <span class="fu">length</span>(pts)),</span>
+<span id="cb15-29"><a href="diagnostic-analytics-1.html#cb15-29" tabindex="-1"></a>          <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">heat.colors</span>(<span class="dv">50</span>)),</span>
+<span id="cb15-30"><a href="diagnostic-analytics-1.html#cb15-30" tabindex="-1"></a>          <span class="at">main =</span> ttl, <span class="at">cex.main =</span> cex.main,</span>
+<span id="cb15-31"><a href="diagnostic-analytics-1.html#cb15-31" tabindex="-1"></a>          <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>),</span>
+<span id="cb15-32"><a href="diagnostic-analytics-1.html#cb15-32" tabindex="-1"></a>          <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb15-33"><a href="diagnostic-analytics-1.html#cb15-33" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">new =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-34"><a href="diagnostic-analytics-1.html#cb15-34" tabindex="-1"></a>    <span class="fu">plot</span>(X, <span class="at">type =</span> <span class="st">&quot;p&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>),</span>
+<span id="cb15-35"><a href="diagnostic-analytics-1.html#cb15-35" tabindex="-1"></a>         <span class="at">col =</span> <span class="st">&quot;#0000801A&quot;</span>,</span>
+<span id="cb15-36"><a href="diagnostic-analytics-1.html#cb15-36" tabindex="-1"></a>         <span class="at">axes =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb15-37"><a href="diagnostic-analytics-1.html#cb15-37" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb15-38"><a href="diagnostic-analytics-1.html#cb15-38" tabindex="-1"></a>}</span>
+<span id="cb15-39"><a href="diagnostic-analytics-1.html#cb15-39" tabindex="-1"></a></span>
+<span id="cb15-40"><a href="diagnostic-analytics-1.html#cb15-40" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">isolation.forest</span>(X, <span class="at">ndim=</span><span class="dv">1</span>, <span class="at">ntrees=</span><span class="dv">100</span>, <span class="at">nthreads=</span><span class="dv">1</span>)</span>
+<span id="cb15-41"><a href="diagnostic-analytics-1.html#cb15-41" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, space_d)</span>
+<span id="cb15-42"><a href="diagnostic-analytics-1.html#cb15-42" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">2.5</span>,<span class="fl">2.2</span>,<span class="dv">2</span>,<span class="fl">2.5</span>))</span>
+<span id="cb15-43"><a href="diagnostic-analytics-1.html#cb15-43" tabindex="-1"></a><span class="fu">plot.space</span>(scores, <span class="st">&quot;Outlier Scores</span><span class="sc">\n</span><span class="st">(clustered data with an outlier on top)&quot;</span>, <span class="fl">1.0</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>在看另外一个异常值机i暗沉呢的例子:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="diagnostic-analytics-1.html#cb16-1" tabindex="-1"></a><span class="co"># 加载所需的包</span></span>
+<span id="cb16-2"><a href="diagnostic-analytics-1.html#cb16-2" tabindex="-1"></a><span class="fu">library</span>(isotree)</span>
+<span id="cb16-3"><a href="diagnostic-analytics-1.html#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="diagnostic-analytics-1.html#cb16-4" tabindex="-1"></a><span class="co"># 创建示例数据</span></span>
+<span id="cb16-5"><a href="diagnostic-analytics-1.html#cb16-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb16-6"><a href="diagnostic-analytics-1.html#cb16-6" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">200</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb16-7"><a href="diagnostic-analytics-1.html#cb16-7" tabindex="-1"></a>X_outliers <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">40</span>, <span class="at">min =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">max =</span> <span class="dv">4</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb16-8"><a href="diagnostic-analytics-1.html#cb16-8" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbind</span>(X, X_outliers)</span>
+<span id="cb16-9"><a href="diagnostic-analytics-1.html#cb16-9" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="diagnostic-analytics-1.html#cb16-10" tabindex="-1"></a><span class="co"># 训练 Isolation Forest 模型</span></span>
+<span id="cb16-11"><a href="diagnostic-analytics-1.html#cb16-11" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">isolation.forest</span>(X, <span class="at">nthreads =</span> <span class="dv">1</span>)  <span class="co"># 使用单个线程进行训练</span></span>
+<span id="cb16-12"><a href="diagnostic-analytics-1.html#cb16-12" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="diagnostic-analytics-1.html#cb16-13" tabindex="-1"></a><span class="co"># 预测数据的异常值得分</span></span>
+<span id="cb16-14"><a href="diagnostic-analytics-1.html#cb16-14" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, X, <span class="at">output_in_leaf =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-15"><a href="diagnostic-analytics-1.html#cb16-15" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="diagnostic-analytics-1.html#cb16-16" tabindex="-1"></a><span class="co"># 定义异常值阈值（例如，异常值得分高于阈值的数据点被认为是异常值）</span></span>
+<span id="cb16-17"><a href="diagnostic-analytics-1.html#cb16-17" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fu">quantile</span>(scores, <span class="fl">0.95</span>)</span>
+<span id="cb16-18"><a href="diagnostic-analytics-1.html#cb16-18" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="diagnostic-analytics-1.html#cb16-19" tabindex="-1"></a><span class="co"># 根据异常值阈值绘制异常值检测结果</span></span>
+<span id="cb16-20"><a href="diagnostic-analytics-1.html#cb16-20" tabindex="-1"></a><span class="fu">plot</span>(X, <span class="at">col =</span> <span class="fu">ifelse</span>(scores <span class="sc">&gt;</span> threshold, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">main =</span> <span class="st">&quot;Isolation Forest&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb16-21"><a href="diagnostic-analytics-1.html#cb16-21" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Normal&quot;</span>, <span class="st">&quot;Anomaly&quot;</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Local Outlier Factor (LOF)：基于数据点周围的密度来识别异常值。</li>
+</ol>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="diagnostic-analytics-1.html#cb17-1" tabindex="-1"></a><span class="co"># 安装并加载 &#39;dbscan&#39; 包</span></span>
+<span id="cb17-2"><a href="diagnostic-analytics-1.html#cb17-2" tabindex="-1"></a><span class="co"># install.packages(&quot;dbscan&quot;)</span></span>
+<span id="cb17-3"><a href="diagnostic-analytics-1.html#cb17-3" tabindex="-1"></a><span class="fu">library</span>(dbscan)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dbscan&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     as.dendrogram</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="diagnostic-analytics-1.html#cb20-1" tabindex="-1"></a><span class="co"># 创建示例数据框</span></span>
+<span id="cb20-2"><a href="diagnostic-analytics-1.html#cb20-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>), <span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>))</span>
+<span id="cb20-3"><a href="diagnostic-analytics-1.html#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="diagnostic-analytics-1.html#cb20-4" tabindex="-1"></a><span class="co"># 使用 LOF 进行异常值检测</span></span>
+<span id="cb20-5"><a href="diagnostic-analytics-1.html#cb20-5" tabindex="-1"></a>lof <span class="ot">&lt;-</span> dbscan<span class="sc">::</span><span class="fu">lof</span>(data)</span>
+<span id="cb20-6"><a href="diagnostic-analytics-1.html#cb20-6" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="diagnostic-analytics-1.html#cb20-7" tabindex="-1"></a><span class="co"># 标记异常值</span></span>
+<span id="cb20-8"><a href="diagnostic-analytics-1.html#cb20-8" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb20-9"><a href="diagnostic-analytics-1.html#cb20-9" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> data[lof <span class="sc">&gt;</span> threshold, ]</span>
+<span id="cb20-10"><a href="diagnostic-analytics-1.html#cb20-10" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="diagnostic-analytics-1.html#cb20-11" tabindex="-1"></a><span class="co"># 显示异常值</span></span>
+<span id="cb20-12"><a href="diagnostic-analytics-1.html#cb20-12" tabindex="-1"></a>outliers</span></code></pre></div>
+<pre><code>##           x          y
+## 49 -2.69993 -0.4148243</code></pre>
+</div>
+<div id="关联规则" class="section level3 hasAnchor" number="3.1.7">
+<h3><span class="header-section-number">3.1.7</span> 关联规则<a href="diagnostic-analytics-1.html#关联规则" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>关联规则是数据挖掘中的一种技术，用于发现数据集中项之间的关联关系。其原理基于两个重要的概念：支持度（Support）和置信度（Confidence）。</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>支持度（Support）：</strong> 支持度是一个项集（itemset）在数据集中出现的频率，通常以百分比或小数表示。对于项集{X, Y}，支持度表示包含X和Y的交易数量与总交易数量之比。支持度越高，表示该项集在数据集中出现的频率越大。</p>
+<p>支持度（{X, Y}）= (包含X和Y的交易数量) / (总交易数量)</p></li>
+<li><p><strong>置信度（Confidence）：</strong> 置信度是指在发生X的情况下，Y发生的条件概率。对于项集{X, Y}，置信度表示在包含X的交易中，Y也出现的概率。</p>
+<p>置信度（X → Y）= (包含X和Y的交易数量) / (包含X的交易数量)</p></li>
+</ol>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="diagnostic-analytics-1.html#cb22-1" tabindex="-1"></a><span class="co"># 安装并加载所需的包</span></span>
+<span id="cb22-2"><a href="diagnostic-analytics-1.html#cb22-2" tabindex="-1"></a><span class="co"># install.packages(&quot;arules&quot;)</span></span>
+<span id="cb22-3"><a href="diagnostic-analytics-1.html#cb22-3" tabindex="-1"></a><span class="fu">library</span>(arules)</span></code></pre></div>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## 
+## Attaching package: &#39;arules&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     abbreviate, write</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="diagnostic-analytics-1.html#cb26-1" tabindex="-1"></a><span class="co"># 创建示例数据集</span></span>
+<span id="cb26-2"><a href="diagnostic-analytics-1.html#cb26-2" tabindex="-1"></a>transactions <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb26-3"><a href="diagnostic-analytics-1.html#cb26-3" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;milk&quot;</span>, <span class="st">&quot;bread&quot;</span>, <span class="st">&quot;butter&quot;</span>),</span>
+<span id="cb26-4"><a href="diagnostic-analytics-1.html#cb26-4" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;bread&quot;</span>, <span class="st">&quot;butter&quot;</span>),</span>
+<span id="cb26-5"><a href="diagnostic-analytics-1.html#cb26-5" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;milk&quot;</span>, <span class="st">&quot;bread&quot;</span>, <span class="st">&quot;butter&quot;</span>, <span class="st">&quot;cheese&quot;</span>),</span>
+<span id="cb26-6"><a href="diagnostic-analytics-1.html#cb26-6" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;milk&quot;</span>, <span class="st">&quot;bread&quot;</span>),</span>
+<span id="cb26-7"><a href="diagnostic-analytics-1.html#cb26-7" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;milk&quot;</span>, <span class="st">&quot;butter&quot;</span>, <span class="st">&quot;cheese&quot;</span>)</span>
+<span id="cb26-8"><a href="diagnostic-analytics-1.html#cb26-8" tabindex="-1"></a>)</span>
+<span id="cb26-9"><a href="diagnostic-analytics-1.html#cb26-9" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="diagnostic-analytics-1.html#cb26-10" tabindex="-1"></a><span class="co"># 转换数据集为 transactions 类型</span></span>
+<span id="cb26-11"><a href="diagnostic-analytics-1.html#cb26-11" tabindex="-1"></a>transactions <span class="ot">&lt;-</span> <span class="fu">as</span>(transactions, <span class="st">&quot;transactions&quot;</span>)</span>
+<span id="cb26-12"><a href="diagnostic-analytics-1.html#cb26-12" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="diagnostic-analytics-1.html#cb26-13" tabindex="-1"></a><span class="co"># 执行关联规则分析</span></span>
+<span id="cb26-14"><a href="diagnostic-analytics-1.html#cb26-14" tabindex="-1"></a>rules <span class="ot">&lt;-</span> <span class="fu">apriori</span>(transactions, <span class="at">parameter =</span> <span class="fu">list</span>(<span class="at">support =</span> <span class="fl">0.2</span>, <span class="at">confidence =</span> <span class="fl">0.6</span>))</span></code></pre></div>
+<pre><code>## Apriori
+## 
+## Parameter specification:
+##  confidence minval smax arem  aval originalSupport maxtime support minlen
+##         0.6    0.1    1 none FALSE            TRUE       5     0.2      1
+##  maxlen target  ext
+##      10  rules TRUE
+## 
+## Algorithmic control:
+##  filter tree heap memopt load sort verbose
+##     0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+## 
+## Absolute minimum support count: 1 
+## 
+## set item appearances ...[0 item(s)] done [0.00s].
+## set transactions ...[4 item(s), 5 transaction(s)] done [0.00s].
+## sorting and recoding items ... [4 item(s)] done [0.00s].
+## creating transaction tree ... done [0.00s].
+## checking subsets of size 1 2 3 4 done [0.00s].
+## writing ... [21 rule(s)] done [0.00s].
+## creating S4 object  ... done [0.00s].</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="diagnostic-analytics-1.html#cb28-1" tabindex="-1"></a><span class="co"># 显示前 5 条关联规则</span></span>
+<span id="cb28-2"><a href="diagnostic-analytics-1.html#cb28-2" tabindex="-1"></a><span class="fu">inspect</span>(<span class="fu">head</span>(rules, <span class="at">n =</span> <span class="dv">5</span>))</span></code></pre></div>
+<pre><code>##     lhs         rhs      support confidence coverage lift count
+## [1] {}       =&gt; {bread}  0.8     0.8        1.0      1.00 4    
+## [2] {}       =&gt; {butter} 0.8     0.8        1.0      1.00 4    
+## [3] {}       =&gt; {milk}   0.8     0.8        1.0      1.00 4    
+## [4] {cheese} =&gt; {butter} 0.4     1.0        0.4      1.25 2    
+## [5] {cheese} =&gt; {milk}   0.4     1.0        0.4      1.25 2</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="diagnostic-analytics-1.html#cb30-1" tabindex="-1"></a><span class="do">## 查看所有的e</span></span>
+<span id="cb30-2"><a href="diagnostic-analytics-1.html#cb30-2" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="diagnostic-analytics-1.html#cb30-3" tabindex="-1"></a><span class="fu">inspect</span>(rules)</span></code></pre></div>
+<pre><code>##      lhs                        rhs      support confidence coverage lift     
+## [1]  {}                      =&gt; {bread}  0.8     0.8000000  1.0      1.0000000
+## [2]  {}                      =&gt; {butter} 0.8     0.8000000  1.0      1.0000000
+## [3]  {}                      =&gt; {milk}   0.8     0.8000000  1.0      1.0000000
+## [4]  {cheese}                =&gt; {butter} 0.4     1.0000000  0.4      1.2500000
+## [5]  {cheese}                =&gt; {milk}   0.4     1.0000000  0.4      1.2500000
+## [6]  {bread}                 =&gt; {butter} 0.6     0.7500000  0.8      0.9375000
+## [7]  {butter}                =&gt; {bread}  0.6     0.7500000  0.8      0.9375000
+## [8]  {bread}                 =&gt; {milk}   0.6     0.7500000  0.8      0.9375000
+## [9]  {milk}                  =&gt; {bread}  0.6     0.7500000  0.8      0.9375000
+## [10] {butter}                =&gt; {milk}   0.6     0.7500000  0.8      0.9375000
+## [11] {milk}                  =&gt; {butter} 0.6     0.7500000  0.8      0.9375000
+## [12] {bread, cheese}         =&gt; {butter} 0.2     1.0000000  0.2      1.2500000
+## [13] {bread, cheese}         =&gt; {milk}   0.2     1.0000000  0.2      1.2500000
+## [14] {butter, cheese}        =&gt; {milk}   0.4     1.0000000  0.4      1.2500000
+## [15] {cheese, milk}          =&gt; {butter} 0.4     1.0000000  0.4      1.2500000
+## [16] {butter, milk}          =&gt; {cheese} 0.4     0.6666667  0.6      1.6666667
+## [17] {bread, butter}         =&gt; {milk}   0.4     0.6666667  0.6      0.8333333
+## [18] {bread, milk}           =&gt; {butter} 0.4     0.6666667  0.6      0.8333333
+## [19] {butter, milk}          =&gt; {bread}  0.4     0.6666667  0.6      0.8333333
+## [20] {bread, butter, cheese} =&gt; {milk}   0.2     1.0000000  0.2      1.2500000
+## [21] {bread, cheese, milk}   =&gt; {butter} 0.2     1.0000000  0.2      1.2500000
+##      count
+## [1]  4    
+## [2]  4    
+## [3]  4    
+## [4]  2    
+## [5]  2    
+## [6]  3    
+## [7]  3    
+## [8]  3    
+## [9]  3    
+## [10] 3    
+## [11] 3    
+## [12] 1    
+## [13] 1    
+## [14] 2    
+## [15] 2    
+## [16] 2    
+## [17] 2    
+## [18] 2    
+## [19] 2    
+## [20] 1    
+## [21] 1</code></pre>
+</div>
+<div id="k-means" class="section level3 hasAnchor" number="3.1.8">
+<h3><span class="header-section-number">3.1.8</span> k means<a href="diagnostic-analytics-1.html#k-means" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>K均值聚类是一种常见的无监督学习算法，用于将数据点分成K个簇。它的原理如下：</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>选择簇的数量 (K):</strong> 首先，需要确定要将数据分成多少个簇，即K的值。这通常是通过先验知识或基于问题的具体需求来确定的。</p></li>
+<li><p><strong>初始化簇中心:</strong> 随机选择K个数据点作为初始簇中心，这些点将用于定义每个簇的中心。</p></li>
+<li><p><strong>分配数据点:</strong> 对于每个数据点，计算它与每个簇中心的距离，通常使用欧氏距离或其他距离度量。然后，将数据点分配到距离最近的簇。</p></li>
+<li><p><strong>更新簇中心:</strong> 对于每个簇，计算其所有数据点的均值（中心），并将该均值作为新的簇中心。</p></li>
+<li><p><strong>重复分配和更新:</strong> 重复步骤3和步骤4，直到簇中心不再发生显著变化，或者达到预定的停止条件，例如达到最大迭代次数。</p></li>
+<li><p><strong>得到最终结果:</strong> 当算法停止时，数据点将被分为K个簇，每个簇由一组相似的数据点组成。</p></li>
+</ol>
+<p>K均值聚类的目标是最小化每个簇内数据点到簇中心的平方距离之和，即最小化簇内的方差。这使得每个簇内的数据点彼此更加相似，而不同簇之间的数据点差异更大。</p>
+<p>需要注意的是，K均值聚类对初始簇中心的选择敏感，不同的初始选择可能会导致不同的聚类结果。因此，通常会多次运行K均值算法，每次使用不同的初始簇中心，然后选择产生最小方差的聚类结果。</p>
+<p>K均值聚类是一种快速且有效的聚类方法，但它对簇的形状和大小的假设是均匀的，因此在某些情况下可能不适用。</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="diagnostic-analytics-1.html#cb32-1" tabindex="-1"></a><span class="co"># 加载必要的库</span></span>
+<span id="cb32-2"><a href="diagnostic-analytics-1.html#cb32-2" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb32-3"><a href="diagnostic-analytics-1.html#cb32-3" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="diagnostic-analytics-1.html#cb32-4" tabindex="-1"></a><span class="co"># 创建示例数据</span></span>
+<span id="cb32-5"><a href="diagnostic-analytics-1.html#cb32-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb32-6"><a href="diagnostic-analytics-1.html#cb32-6" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">200</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb32-7"><a href="diagnostic-analytics-1.html#cb32-7" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="diagnostic-analytics-1.html#cb32-8" tabindex="-1"></a><span class="co"># 执行 k 均值聚类</span></span>
+<span id="cb32-9"><a href="diagnostic-analytics-1.html#cb32-9" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">3</span>  <span class="co"># 指定要聚类的簇的数量</span></span>
+<span id="cb32-10"><a href="diagnostic-analytics-1.html#cb32-10" tabindex="-1"></a>kmeans_result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(data, <span class="at">centers =</span> k)</span>
+<span id="cb32-11"><a href="diagnostic-analytics-1.html#cb32-11" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="diagnostic-analytics-1.html#cb32-12" tabindex="-1"></a><span class="co"># 打印聚类结果</span></span>
+<span id="cb32-13"><a href="diagnostic-analytics-1.html#cb32-13" tabindex="-1"></a><span class="fu">print</span>(kmeans_result)</span></code></pre></div>
+<pre><code>## K-means clustering with 3 clusters of sizes 38, 29, 33
+## 
+## Cluster means:
+##          [,1]       [,2]
+## 1 -0.66333772 -0.6219885
+## 2 -0.02025692  1.0093022
+## 3  1.05560227 -0.4966328
+## 
+## Clustering vector:
+##   [1] 1 2 3 1 1 3 3 1 1 2 3 2 3 1 2 3 3 1 3 1 1 1 1 1 2 1 3 2 1 3 2 2 3 3 3 2 3
+##  [38] 2 2 1 2 1 1 3 3 1 1 2 2 1 2 2 2 3 1 3 1 3 2 3 2 1 1 2 1 2 2 1 3 3 1 1 3 2
+##  [75] 1 3 1 1 2 1 1 2 1 3 1 3 2 3 2 3 3 3 2 1 3 2 3 3 1 1
+## 
+## Within cluster sum of squares by cluster:
+## [1] 23.92627 22.26036 24.96196
+##  (between_SS / total_SS =  59.4 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="diagnostic-analytics-1.html#cb34-1" tabindex="-1"></a><span class="co"># 绘制聚类结果</span></span>
+<span id="cb34-2"><a href="diagnostic-analytics-1.html#cb34-2" tabindex="-1"></a><span class="fu">plot</span>(data, <span class="at">col =</span> kmeans_result<span class="sc">$</span>cluster, <span class="at">main =</span> <span class="st">&quot;k-means Clustering&quot;</span>)</span>
+<span id="cb34-3"><a href="diagnostic-analytics-1.html#cb34-3" tabindex="-1"></a><span class="fu">points</span>(kmeans_result<span class="sc">$</span>centers, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span>k, <span class="at">pch =</span> <span class="dv">8</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="层级聚类" class="section level3 hasAnchor" number="3.1.9">
+<h3><span class="header-section-number">3.1.9</span> 层级聚类<a href="diagnostic-analytics-1.html#层级聚类" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>层次聚类（Hierarchical Clustering）是一种基于树形结构的聚类方法，它将数据点逐步合并成越来越大的簇或分裂成越来越小的子簇，最终构建出一个层次结构的聚类。这种层次结构通常以树状图（树状图）的形式呈现，被称为树状图聚类树或谱系树。</p>
+<p>层次聚类有两种主要方法：凝聚式聚类（Agglomerative Clustering）和分裂式聚类（Divisive Clustering）。</p>
+<p><strong>凝聚式聚类的原理：</strong></p>
+<ol style="list-style-type: decimal">
+<li><p><strong>初始化：</strong> 每个数据点被视为一个单独的簇，形成初始的n个簇，其中n是数据点的数量。</p></li>
+<li><p><strong>合并过程：</strong> 从初始簇中找到最接近（相似性最高）的两个簇，然后将它们合并成一个新的簇。这一过程不断重复，逐渐减少簇的数量。</p></li>
+<li><p><strong>构建聚类树：</strong> 在合并过程中，可以构建一个树形结构，其中每个节点代表一个簇，叶节点代表单个数据点。这个树状图被称为谱系树。</p></li>
+<li><p><strong>停止条件：</strong> 合并过程一直进行，直到满足某种停止条件，例如达到指定的簇的数量或达到某个相似性阈值。</p></li>
+</ol>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="diagnostic-analytics-1.html#cb35-1" tabindex="-1"></a><span class="co"># 加载必要的库</span></span>
+<span id="cb35-2"><a href="diagnostic-analytics-1.html#cb35-2" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
+<span id="cb35-3"><a href="diagnostic-analytics-1.html#cb35-3" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="diagnostic-analytics-1.html#cb35-4" tabindex="-1"></a><span class="co"># 创建示例数据</span></span>
+<span id="cb35-5"><a href="diagnostic-analytics-1.html#cb35-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb35-6"><a href="diagnostic-analytics-1.html#cb35-6" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">200</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb35-7"><a href="diagnostic-analytics-1.html#cb35-7" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="diagnostic-analytics-1.html#cb35-8" tabindex="-1"></a><span class="co"># 计算距离矩阵</span></span>
+<span id="cb35-9"><a href="diagnostic-analytics-1.html#cb35-9" tabindex="-1"></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">dist</span>(data)</span>
+<span id="cb35-10"><a href="diagnostic-analytics-1.html#cb35-10" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="diagnostic-analytics-1.html#cb35-11" tabindex="-1"></a><span class="co"># 执行层次聚类</span></span>
+<span id="cb35-12"><a href="diagnostic-analytics-1.html#cb35-12" tabindex="-1"></a>hclust_result <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_matrix, <span class="at">method =</span> <span class="st">&quot;ward.D2&quot;</span>)</span>
+<span id="cb35-13"><a href="diagnostic-analytics-1.html#cb35-13" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="diagnostic-analytics-1.html#cb35-14" tabindex="-1"></a><span class="co"># 绘制树状图</span></span>
+<span id="cb35-15"><a href="diagnostic-analytics-1.html#cb35-15" tabindex="-1"></a><span class="fu">plot</span>(hclust_result, <span class="at">main =</span> <span class="st">&quot;Hierarchical Clustering Dendrogram&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+在这个示例中，我们首先生成了一个包含随机数据的示例数据集 data。然后，我们使用 dist() 函数计算了数据点之间的距离矩阵。接着，我们使用 hclust() 函数执行了层次聚类，指定了使用 Ward 方法作为聚类的方法。聚类结果保存在 hclust_result 变量中。最后，我们使用 plot() 函数绘制了聚类结果的树状图。</p>
+</div>
+<div id="dbscan" class="section level3 hasAnchor" number="3.1.10">
+<h3><span class="header-section-number">3.1.10</span> DBSCAN<a href="diagnostic-analytics-1.html#dbscan" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>DBSCAN（Density-Based Spatial Clustering of Applications with Noise）是一种密度聚类方法，其原理如下：</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>核心对象（Core Point）：</strong> DBSCAN算法首先定义了核心对象，即在半径ε内至少有MinPts个点的数据点。这意味着核心对象是那些周围有足够多邻居的点，它们有足够的密度。</p></li>
+<li><p><strong>直接密度可达（Directly Density-Reachable）：</strong> 一个点A被称为直接密度可达于另一个点B，如果点B是点A在半径ε内的邻居，即B在A的ε邻域内，且A是核心对象。</p></li>
+<li><p><strong>密度可达（Density-Reachable）：</strong> 一个点A被称为密度可达于另一个点B，如果存在一系列核心对象C1, C2, …, Cn，使得Ci是Ci+1的直接密度可达点，而Cn是B的直接密度可达点。这意味着A可以通过一系列直接密度可达关系到达B。</p></li>
+<li><p><strong>密度相连（Density-Connected）：</strong> 如果存在一个点O，使得点A和点B都是O的密度可达点，那么A和B被称为密度相连。这是一个等价关系。</p></li>
+</ol>
+<p>基于上述原理，DBSCAN将数据点分为以下几类：</p>
+<ul>
+<li><strong>核心对象（Core Points）：</strong> 这些是密度足够大以至于它们被认为是群集的核心的数据点。</li>
+<li><strong>边界点（Border Points）：</strong> 这些点不是核心对象，但位于核心对象的ε邻域内。它们属于某个群集，但不是群集的核心。</li>
+<li><strong>噪声点（Noise Points）：</strong> 这些点既不是核心对象也不是边界点，它们是离群值或噪声点，不属于任何群集。</li>
+</ul>
+<p>DBSCAN的主要优点包括：</p>
+<ul>
+<li>能够发现任意形状的聚类，不受簇的形状和大小限制。</li>
+<li>不需要预先指定簇的数量，这与K均值等方法不同。</li>
+<li>能够有效处理噪声数据点，将其识别为噪声点。</li>
+</ul>
+<p>然而，DBSCAN的性能对两个关键参数MinPts和ε的选择敏感，不适用于高维数据集，而且对密度变化较大的数据集可能表现不佳。因此，在使用DBSCAN时需要谨慎选择参数和理解数据的特点。</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="diagnostic-analytics-1.html#cb36-1" tabindex="-1"></a><span class="co"># 加载必要的库</span></span>
+<span id="cb36-2"><a href="diagnostic-analytics-1.html#cb36-2" tabindex="-1"></a><span class="fu">library</span>(fpc)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;fpc&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dbscan&#39;:
+## 
+##     dbscan</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="diagnostic-analytics-1.html#cb39-1" tabindex="-1"></a><span class="co"># 创建示例数据</span></span>
+<span id="cb39-2"><a href="diagnostic-analytics-1.html#cb39-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb39-3"><a href="diagnostic-analytics-1.html#cb39-3" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">200</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb39-4"><a href="diagnostic-analytics-1.html#cb39-4" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="diagnostic-analytics-1.html#cb39-5" tabindex="-1"></a><span class="co"># 执行 DBSCAN 聚类</span></span>
+<span id="cb39-6"><a href="diagnostic-analytics-1.html#cb39-6" tabindex="-1"></a>dbscan_result <span class="ot">&lt;-</span> <span class="fu">dbscan</span>(data, <span class="at">eps =</span> <span class="fl">0.5</span>, <span class="at">MinPts =</span> <span class="dv">5</span>)</span>
+<span id="cb39-7"><a href="diagnostic-analytics-1.html#cb39-7" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="diagnostic-analytics-1.html#cb39-8" tabindex="-1"></a><span class="co"># 绘制聚类结果</span></span>
+<span id="cb39-9"><a href="diagnostic-analytics-1.html#cb39-9" tabindex="-1"></a><span class="fu">plot</span>(data, <span class="at">col =</span> dbscan_result<span class="sc">$</span>cluster <span class="sc">+</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">main =</span> <span class="st">&quot;DBSCAN Clustering&quot;</span>)</span>
+<span id="cb39-10"><a href="diagnostic-analytics-1.html#cb39-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">unique</span>(dbscan_result<span class="sc">$</span>cluster), <span class="at">col =</span> <span class="fu">unique</span>(dbscan_result<span class="sc">$</span>cluster) <span class="sc">+</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">title =</span> <span class="st">&quot;Cluster&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+在这个示例中，我们首先生成了一个包含随机数据的示例数据集 data。然后，我们使用 dbscan() 函数执行了 DBSCAN 聚类，指定了邻域半径 eps 和最小点数 MinPts 的参数。聚类结果保存在 dbscan_result 变量中。最后，我们使用 plot() 函数绘制了聚类结果的散点图，每个聚类用不同的颜色表示。</p>
+<p>你可以根据自己的数据集和需求调整示例中的参数，例如邻域半径 eps 和最小点数 MinPts 等，以便更好地适应你的实际应用场景。</p>
+</div>
+<div id="woe-分析" class="section level3 hasAnchor" number="3.1.11">
+<h3><span class="header-section-number">3.1.11</span> WOE 分析<a href="diagnostic-analytics-1.html#woe-分析" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="diagnostic-analytics-1.html#cb40-1" tabindex="-1"></a><span class="fu">library</span>(scorecard)</span>
+<span id="cb40-2"><a href="diagnostic-analytics-1.html#cb40-2" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="diagnostic-analytics-1.html#cb40-3" tabindex="-1"></a><span class="fu">data</span>(germancredit)</span>
+<span id="cb40-4"><a href="diagnostic-analytics-1.html#cb40-4" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="diagnostic-analytics-1.html#cb40-5" tabindex="-1"></a> </span>
+<span id="cb40-6"><a href="diagnostic-analytics-1.html#cb40-6" tabindex="-1"></a>bins2_tree <span class="ot">=</span> <span class="fu">woebin</span>(germancredit, <span class="at">y=</span><span class="st">&quot;creditability&quot;</span>,</span>
+<span id="cb40-7"><a href="diagnostic-analytics-1.html#cb40-7" tabindex="-1"></a>   <span class="at">x=</span><span class="fu">c</span>(<span class="st">&quot;credit.amount&quot;</span>,<span class="st">&quot;housing&quot;</span>), <span class="at">method=</span><span class="st">&quot;tree&quot;</span>)</span></code></pre></div>
+<pre><code>## ℹ Creating woe binning ...</code></pre>
+<pre><code>## ✔ Binning on 1000 rows and 3 columns in 00:00:02</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="diagnostic-analytics-1.html#cb43-1" tabindex="-1"></a>bins2_tree</span></code></pre></div>
+<pre><code>## $credit.amount
+##         variable         bin count count_distr neg pos   posprob         woe
+## 1: credit.amount [-Inf,1400)   267       0.267 185  82 0.3071161  0.03366128
+## 2: credit.amount [1400,1800)   105       0.105  87  18 0.1714286 -0.72823850
+## 3: credit.amount [1800,4000)   382       0.382 287  95 0.2486911 -0.25830746
+## 4: credit.amount [4000,9200)   196       0.196 120  76 0.3877551  0.39053946
+## 5: credit.amount [9200, Inf)    50       0.050  21  29 0.5800000  1.17007125
+##          bin_iv  total_iv breaks is_special_values
+## 1: 0.0003045545 0.1812204   1400             FALSE
+## 2: 0.0468153322 0.1812204   1800             FALSE
+## 3: 0.0241086966 0.1812204   4000             FALSE
+## 4: 0.0319870413 0.1812204   9200             FALSE
+## 5: 0.0780047502 0.1812204    Inf             FALSE
+## 
+## $housing
+##    variable      bin count count_distr neg pos   posprob        woe     bin_iv
+## 1:  housing     rent   179       0.179 109  70 0.3910615  0.4044452 0.03139265
+## 2:  housing      own   713       0.713 527 186 0.2608696 -0.1941560 0.02579501
+## 3:  housing for free   108       0.108  64  44 0.4074074  0.4726044 0.02610577
+##      total_iv   breaks is_special_values
+## 1: 0.08329343     rent             FALSE
+## 2: 0.08329343      own             FALSE
+## 3: 0.08329343 for free             FALSE</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="descriptive-analytics-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="predictive-analytics-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-cross-refs.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
